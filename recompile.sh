@@ -1,4 +1,11 @@
 #!/bin/bash
+
+libdirectory="${0%/*}/mtolib/lib"
+
+if [ ! -d $libdirectory ];
+then mkdir $libdirectory
+fi
+
 cd "${0%/*}/mtolib/lib"
 
 socount=`ls *.so 2>/dev/null | wc -l`
