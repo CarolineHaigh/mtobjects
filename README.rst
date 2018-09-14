@@ -1,7 +1,9 @@
 MTObjects
 
 Python implementation by Caroline Haigh (University of Groningen).
+
 Questions, bug reports, and suggested features are very welcome.
+
 
 Based on the original C implementation by Paul Teeninga et al [1]
 
@@ -11,12 +13,12 @@ Build instructions:
 
 Python dependencies - pip install:
 
-scikit-image
-astropy
-matplotlib
-Pillow
-SciPy
-numpy
+- scikit-image
+- astropy
+- matplotlib
+- Pillow
+- SciPy
+- numpy
 
 The program is written for python 3.
 
@@ -54,14 +56,22 @@ The -sub argument:
 
 This aims to prevent objects on a bright background from having an artificially inflated flux value in output parameters.
 To do this, a value representing the local background is subtracted from all pixels in the object when calculating parameters.
+
 The -sub argument controls how this value is chosen.
 
 Options:
+
 	'min' 			Subtract the minimum valued pixel within the object's bounds
+	
 	'minIfNested'		As above, but only applied to nested objects
+	
 	'parent'		Subtract the parent pixel from the tree (value may be higher than minimum due to smoothing)
+	
 	'parentIfNested'	As above, but only applied to nested objects
+	
 	'none'			No subtraction
+
+
 
 NB - this parameter is a temporary solution, which we hope to replace with a more robust method in future.
 
@@ -69,13 +79,14 @@ NB - this parameter is a temporary solution, which we hope to replace with a mor
 -------------------------
 
 [1] Citing:
+::
 
-@inproceedings{teeninga2015improved,
-  title={Improved detection of faint extended astronomical objects through statistical attribute filtering},
-  author={Teeninga, Paul and Moschini, Ugo and Trager, Scott C and Wilkinson, Michael HF},
-  booktitle={International Symposium on Mathematical Morphology and Its Applications to Signal and Image Processing},
-  pages={157--168},
-  year={2015},
-  organization={Springer}
-}
+	@inproceedings{teeninga2015improved,
+	  title={Improved detection of faint extended astronomical objects through statistical attribute filtering},
+	  author={Teeninga, Paul and Moschini, Ugo and Trager, Scott C and Wilkinson, Michael HF},
+	  booktitle={International Symposium on Mathematical Morphology and Its Applications to Signal and Image Processing},
+	  pages={157--168},
+	  year={2015},
+	  organization={Springer}
+	}
 
