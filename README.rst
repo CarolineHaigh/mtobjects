@@ -1,6 +1,7 @@
 MTObjects
 
 Python implementation by Caroline Haigh (University of Groningen).
+Questions, bug reports, and suggested features are very welcome.
 
 Based on the original C implementation by Paul Teeninga et al [1]
 
@@ -45,7 +46,7 @@ Arguments:
 				Default = 0.0
   -sub			Set the baseline from which objects' parameters are calculated
 				Default = 'minIfNested' - see below for details
-  -verbosity {0,1,2}    Verbosity level (0-2)
+  -verbosity		Verbosity level (0-2)
 
 -------------------------
 
