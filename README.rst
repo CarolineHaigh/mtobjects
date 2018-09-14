@@ -61,14 +61,12 @@ The -sub argument controls how this value is chosen.
 
 Options:
 
+::
+
 	'min' 			Subtract the minimum valued pixel within the object's bounds
-	
 	'minIfNested'		As above, but only applied to nested objects
-	
-	'parent'		Subtract the parent pixel from the tree (value may be higher than minimum due to smoothing)
-	
-	'parentIfNested'	As above, but only applied to nested objects
-	
+	'parent'		Subtract the parent pixel from the tree (value may be higher than minimum due to smoothing)	
+	'parentIfNested'	As above, but only applied to nested objects	
 	'none'			No subtraction
 
 
