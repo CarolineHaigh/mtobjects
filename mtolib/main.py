@@ -9,6 +9,7 @@ from mtolib.tree_filtering import filter_tree, get_c_significant_nodes, init_dou
 from mtolib.io_mto import generate_image, generate_parameters, read_fits_file, make_parser
 from mtolib.utils import time_function
 from ctypes import c_float, c_double
+from mtolib.postprocessing import relabel_segments
 
 
 def setup():

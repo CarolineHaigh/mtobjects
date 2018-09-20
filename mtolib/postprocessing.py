@@ -10,9 +10,46 @@ def colour_labels(label_map):
     return np.uint8(label2rgb(label_map)*255)
 
 
+def relabel_segments(label_map, shuffle_labels=False):
+    """Relabel segments with sequential numbers"""
+
+    original_shape = label_map.shape
+
+    label_map = label_map.ravel()
+    output = np.zeros(label_map.shape, dtype=label_map.dtype)
+
+    # Sort the object ID map for faster pixel retrieval
+    sorted_ids = label_map.argsort()
+    id_set = list(set(label_map))
+    id_set.sort()
+
+    id_set.remove(-1)
+
+    # Get the locations in sorted_ids of the matching pixels
+    right_indices = np.searchsorted(label_map, id_set, side='right', sorter=sorted_ids)
+    left_indices = np.searchsorted(label_map, id_set, side='left', sorter=sorted_ids)
+
+    # Generate a list of labels
+    label_list = list(range(0, 1 + len(id_set)))
+
+    # Shuffle order in which labels are allocated
+    if shuffle_labels:
+        np.random.shuffle(label_list)
+
+    # Relabel pixels
+    for n in range(len(id_set)):
+        pixel_indices = np.unravel_index(sorted_ids[left_indices[n]:right_indices[n]], label_map.shape)
+
+        output[pixel_indices] = label_list[n]
+
+    return output.reshape(original_shape)
+
+
 def levelled_segments(img, label_map):
     """Replace object ids with the value at which the object was detected"""
     output = np.zeros(img.shape)
+
+    label_map = label_map.ravel()
 
     # Sort the object ID map for faster pixel retrieval
     sorted_ids = label_map.argsort()
@@ -61,22 +98,9 @@ def get_image_parameters(img, object_ids, sig_ancs, params,):
 
     # For each object in the list, get the pixels, calculate parameters, and write to file
     for n in range(len(id_set)):
-        # Find the ID of the object's closest significant node
-        ancestor_id = sig_ancs[np.unravel_index(id_set[n], img.shape)]
-
-        if ancestor_id == -3:
-            parent_level = 0
-        else:
-            # Find the level of the object's closest significant node
-            parent_level = img[np.unravel_index(ancestor_id, img.shape)]
-
-        # Clear parent level for non-nested nodes if required
-        if params.sub == 'minIfNested' or params.sub == 'parentIfNested':
-            if object_ids[ancestor_id] == -1:
-                parent_level = None
 
         pixel_indices = np.unravel_index(sorted_ids[left_indices[n]:right_indices[n]], img.shape)
-        parameters.append(get_object_parameters(img, id_set[n], pixel_indices, parent_level, params.sub))
+        parameters.append(get_object_parameters(img, id_set[n], pixel_indices))
 
     # Return to printing warnings
     warnings.resetwarnings()
@@ -84,24 +108,15 @@ def get_image_parameters(img, object_ids, sig_ancs, params,):
     return parameters
 
 
-def get_object_parameters(img, node_id, pixel_indices, parent_level, mode):
+def get_object_parameters(img, node_id, pixel_indices):
     """Calculate an object's parameters given the indices of its pixels"""
     p = [node_id]
 
     # Get pixel values for an object
     pixel_values = np.nan_to_num(img.data[pixel_indices])
 
-    # Subtract parent/min values if required
-    if mode == 'minIfNested':
-        if parent_level is not None:
-            pixel_values -= np.min(pixel_values)
-    elif mode == 'min':
-        pixel_values -= np.min(pixel_values)
-    elif mode == 'parentIfNested':
-        if parent_level is not None:
-            pixel_values -= parent_level
-    elif mode == 'parent':
-        pixel_values -= parent_level
+    # Subtract min values if required
+    pixel_values -= max(np.min(pixel_values), 0)
 
     flux_sum = np.sum(pixel_values)
 

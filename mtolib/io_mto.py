@@ -166,9 +166,6 @@ def make_parser():
     parser.add_argument('-move_factor', type=utils.validate_positive, help='Moves up the object marker', default=0.5)
     parser.add_argument('-min_distance', type=utils.validate_positive,
                          help='Minimum brightness distance between objects', default=0.0)
-    parser.add_argument('-sub', type=str, help='Subtraction method - see README for details',
-                        choices=['parent', 'parentIfNested', 'min', 'minIfNested', 'none'],
-                        default='minIfNested')
     parser.add_argument('-verbosity', type=int, help='Verbosity level (0-2)', choices=range(0, 3), default=0)
 
     return parser
