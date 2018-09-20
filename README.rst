@@ -46,32 +46,7 @@ Arguments:
 				Default = 0.5; Lower values can be interesting
   -min_distance         Minimum brightness difference between objects.
 				Default = 0.0
-  -sub			Set the baseline from which objects' parameters are calculated
-				Default = 'minIfNested' - see below for details
   -verbosity		Verbosity level (0-2)
-
--------------------------
-
-The -sub argument:
-
-This aims to prevent objects on a bright background from having an artificially inflated flux value in output parameters.
-To do this, a value representing the local background is subtracted from all pixels in the object when calculating parameters.
-
-The -sub argument controls how this value is chosen.
-
-Options:
-
-::
-
-	'min' 			Subtract the minimum valued pixel within the object's bounds
-	'minIfNested'		As above, but only applied to nested objects
-	'parent'		Subtract the parent pixel from the tree (value may be higher than minimum due to smoothing)	
-	'parentIfNested'	As above, but only applied to nested objects	
-	'none'			No subtraction
-
-
-
-NB - this parameter is a temporary solution, which we hope to replace with a more robust method in future.
 
 
 -------------------------
