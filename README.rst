@@ -1,4 +1,8 @@
+=====
 MTObjects
+=====
+
+MTObjects is a tool for detecting sources in astronomical images, and creating segmentation maps and parameter tables.
 
 Python implementation by Caroline Haigh (University of Groningen).
 
