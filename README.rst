@@ -68,6 +68,11 @@ Arguments:
 
 -------------------------
 
+We acknowledge financial support from the European Union’s Horizon 2020 research and innovation programme under Marie Skłodowska-Curie grant agreement No 721463 to the SUNDIAL ITN network.
+
+-------------------------
+
+
 [1] Citing:
 ::
 
