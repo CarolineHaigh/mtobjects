@@ -16,25 +16,36 @@ def relabel_segments(label_map, shuffle_labels=False):
     original_shape = label_map.shape
 
     label_map = label_map.ravel()
-    output = np.zeros(label_map.shape, dtype=label_map.dtype)
+    output = np.zeros(label_map.shape, dtype=label_map.dtype) -1
 
     # Sort the object ID map for faster pixel retrieval
     sorted_ids = label_map.argsort()
     id_set = list(set(label_map))
     id_set.sort()
+    
+    print(id_set)
 
     id_set.remove(-1)
+    
+    print(id_set)
+
 
     # Get the locations in sorted_ids of the matching pixels
     right_indices = np.searchsorted(label_map, id_set, side='right', sorter=sorted_ids)
     left_indices = np.searchsorted(label_map, id_set, side='left', sorter=sorted_ids)
+    
+    print(right_indices)
 
-    # Generate a list of labels
-    label_list = list(range(0, 1 + len(id_set)))
+    # Generate a list of labels, starting from 1
+    label_list = list(range(1, 1 + len(id_set)))
+    
+    print(label_list)
 
     # Shuffle order in which labels are allocated
     if shuffle_labels:
         np.random.shuffle(label_list)
+        
+    print(label_list)
 
     # Relabel pixels
     for n in range(len(id_set)):
